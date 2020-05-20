@@ -121,12 +121,33 @@ public class UtilisateurDAO extends Utilisateur
                 statement.execute();
             }
             
-            System.out.println("Le " + type + " de l'utilisateur n°" + id + " est modifié avec succès");
+           System.out.println("Le " + type + " de l'utilisateur n°" + id + " est modifié avec succès");
         }
         catch(SQLException e)
         {
             e.printStackTrace();
             System.out.println("Impossible de mettre à jour les informations");
+        }
+    }
+    
+    public void deleteUtilisateur(Utilisateur utilisateur, int id)
+    {
+        try
+        {
+            Connection connection = DriverManager.getConnection(url,user,password);
+
+            utilisateur.setId(id);
+            String sql = "DELETE FROM utilisateur WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+            statement.execute();
+
+            System.out.println("L'utilisateur n°" + id + " est supprimé de la base de données avec succès");
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            System.out.println("Impossible de supprimer l'utilisateur");
         }
     }
     

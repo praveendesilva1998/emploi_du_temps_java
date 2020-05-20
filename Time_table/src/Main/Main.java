@@ -21,17 +21,17 @@ public class Main
         
         Utilisateur utilisateur = new Utilisateur();
         
-        utilisateur.setId(1);
+        utilisateur.setId(3);
         
         UtilisateurDAO utilisateurDAO = new UtilisateurDAO(url, user, password);
 
         //System.out.println(utilisateur.getId());
         //utilisateurDAO.updateUtilisateurInt(utilisateur, utilisateur.getId(), typeInt, valueInt);
-        utilisateurDAO.updateUtilisateurString(utilisateur, utilisateur.getId(), typeString, valueString);
+        //utilisateurDAO.updateUtilisateurString(utilisateur, utilisateur.getId(), typeString, valueString);
 
         //utilisateurDAO.getUtilisateurByInt(typeInt, valueInt);
         //utilisateurDAO.getUtilisateurByString(typeString, valueString);
-
+        utilisateurDAO.deleteUtilisateur(utilisateur, utilisateur.getId());
         
     }
     
