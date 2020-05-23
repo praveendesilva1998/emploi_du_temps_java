@@ -1,37 +1,42 @@
 
 package Main;
 
-import Main.Classe.Utilisateur;
+import Main.Classe.Implements.UtilisateurImp;
 import Main.Classe.DAO.UtilisateurDAO;
+import Main.Classe.DAO.CoursDAO;
+import Main.Classe.Implements.CoursImp;
 
 public class Main 
 {
 
     public static void main(String[] args)
     {
-        String url = "jdbc:mysql://localhost:3306/hyperplanning";
-        String user = "root";
-        String password = "";
+        
         
         String typeString = "nom";
-        String valueString = "DE SILVA";
+        String valueString = "De Silva";
         
         String typeInt = "droit";
         int valueInt = 1;
         
-        Utilisateur utilisateur = new Utilisateur();
-        
-        utilisateur.setId(3);
-        
-        UtilisateurDAO utilisateurDAO = new UtilisateurDAO(url, user, password);
+        CoursImp coursImp = new CoursImp();
+        CoursDAO cours = new CoursDAO();
 
-        //System.out.println(utilisateur.getId());
-        //utilisateurDAO.updateUtilisateurInt(utilisateur, utilisateur.getId(), typeInt, valueInt);
-        //utilisateurDAO.updateUtilisateurString(utilisateur, utilisateur.getId(), typeString, valueString);
+        cours.getCoursByName(coursImp, "Physique");
 
-        //utilisateurDAO.getUtilisateurByInt(typeInt, valueInt);
-        //utilisateurDAO.getUtilisateurByString(typeString, valueString);
-        utilisateurDAO.deleteUtilisateur(utilisateur, utilisateur.getId());
+        
+        UtilisateurDAO utilisateur = new UtilisateurDAO();
+        UtilisateurImp utilisateurImp = new UtilisateurImp();
+        
+        //utilisateurImp.setId(1);
+
+        //System.out.println(utilisateurImp.getId());
+        //utilisateur.updateUtilisateurInt(utilisateurImp, utilisateurImp.getId(), typeInt, valueInt);
+        //utilisateur.updateUtilisateurString(utilisateurImp, utilisateurImp.getId(), typeString, valueString);
+
+        utilisateur.getUtilisateurByInt(utilisateurImp, typeInt, valueInt);
+        utilisateur.getUtilisateurByString(utilisateurImp, typeString, valueString);
+        //utilisateur.deleteUtilisateur(utilisateurImp, utilisateurImp.getId());
         
     }
     

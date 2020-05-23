@@ -2,20 +2,19 @@
 package Main.Classe.DAO;
 
 import java.sql.*; 
-import Main.Classe.Utilisateur;
+import Main.Classe.Implements.UtilisateurImp;
 
-public class UtilisateurDAO extends Utilisateur
+public class UtilisateurDAO implements DAO<UtilisateurImp>
 {
-
     private String url;
     private String user;
     private String password;
     
-    public UtilisateurDAO(String url, String user, String password)
+    public UtilisateurDAO()
     {
-        this.url = url;
-        this.user = user;
-        this.password = password;
+        this.url = "jdbc:mysql://localhost:3306/hyperplanning";
+        this.user = "root";
+        this.password = "";
     }
     
     public void displayUtilisateur(int id, String email, String password, String nom, String prenom, int droit)
@@ -46,7 +45,7 @@ public class UtilisateurDAO extends Utilisateur
         System.out.println("");
     }
     
-    public void addUtilisateur(Utilisateur utilisateur)
+    public void addUtilisateur(UtilisateurImp utilisateur)
     {
         try
         {
@@ -70,20 +69,20 @@ public class UtilisateurDAO extends Utilisateur
         }
     }
     
-    public void updateUtilisateurString(Utilisateur utilisateur, int id, String type, String value)
+    public void updateUtilisateurString(UtilisateurImp utilisateur, int id, String type, String value)
     {
         try
         {
             Connection connection = DriverManager.getConnection(url,user,password);
             
-            if(utilisateur.getId()==0)
+            if(utilisateur.getIdUtilisateur()==0)
             {
                 addUtilisateur(utilisateur);
          
             }
             else
             {
-                utilisateur.setId(id);
+                utilisateur.setIdUtilisateur(id);
                 String sql = "UPDATE utilisateur SET " + type + " = ? WHERE id = ?";
                 PreparedStatement statement = connection.prepareStatement(sql);
                 statement.setString(1, value);
@@ -100,20 +99,20 @@ public class UtilisateurDAO extends Utilisateur
         }
     }
     
-    public void updateUtilisateurInt(Utilisateur utilisateur, int id, String type, int value)
+    public void updateUtilisateurInt(UtilisateurImp utilisateur, int id, String type, int value)
     {
         try
         {
             Connection connection = DriverManager.getConnection(url,user,password);
             
-            if(utilisateur.getId()==0)
+            if(utilisateur.getIdUtilisateur()==0)
             {
                 addUtilisateur(utilisateur);
          
             }
             else
             {
-                utilisateur.setId(id);
+                utilisateur.setIdUtilisateur(id);
                 String sql = "UPDATE utilisateur SET " + type + " = ? WHERE id = ?";
                 PreparedStatement statement = connection.prepareStatement(sql);
                 statement.setInt(1, value);
@@ -130,14 +129,15 @@ public class UtilisateurDAO extends Utilisateur
         }
     }
     
-    public void deleteUtilisateur(Utilisateur utilisateur, int id)
+    @Override
+    public void delete(UtilisateurImp utilisateur, String table, int id)
     {
         try
         {
             Connection connection = DriverManager.getConnection(url,user,password);
 
-            utilisateur.setId(id);
-            String sql = "DELETE FROM utilisateur WHERE id = ?";
+            utilisateur.setIdUtilisateur(id);
+            String sql = "DELETE FROM " + table + " WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
             statement.execute();
@@ -151,7 +151,7 @@ public class UtilisateurDAO extends Utilisateur
         }
     }
     
-    public Utilisateur getUtilisateurByInt(String type, int value)
+    public UtilisateurImp getUtilisateurByInt(UtilisateurImp utilisateur, String type, int value)
     {
         try
         {
@@ -161,19 +161,17 @@ public class UtilisateurDAO extends Utilisateur
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, value);
             ResultSet resultSet = statement.executeQuery();
-            
-            Utilisateur utilisateur = new Utilisateur();
-            
+
             while(resultSet.next())
             {
-                utilisateur.setId(resultSet.getInt("id"));
+                utilisateur.setIdUtilisateur(resultSet.getInt("id"));
                 utilisateur.setEmail(resultSet.getString("email"));
                 utilisateur.setPassword(resultSet.getString("password"));
                 utilisateur.setNom(resultSet.getString("nom"));
                 utilisateur.setPrenom(resultSet.getString("prenom"));
                 utilisateur.setDroit(resultSet.getInt("droit"));
                 
-                int id_utilisateur = utilisateur.getId();
+                int id_utilisateur = utilisateur.getIdUtilisateur();
                 String email = utilisateur.getEmail();
                 String password = utilisateur.getPassword();
                 String nom = utilisateur.getNom();
@@ -193,7 +191,7 @@ public class UtilisateurDAO extends Utilisateur
         
     }
     
-    public Utilisateur getUtilisateurByString(String type, String value)
+    public UtilisateurImp getUtilisateurByString(UtilisateurImp utilisateur, String type, String value)
     {
         try
         {
@@ -204,18 +202,16 @@ public class UtilisateurDAO extends Utilisateur
             statement.setString(1, value);
             ResultSet resultSet = statement.executeQuery();
             
-            Utilisateur utilisateur = new Utilisateur();
-            
             while(resultSet.next())
             {
-                utilisateur.setId(resultSet.getInt("id"));
+                utilisateur.setIdUtilisateur(resultSet.getInt("id"));
                 utilisateur.setEmail(resultSet.getString("email"));
                 utilisateur.setPassword(resultSet.getString("password"));
                 utilisateur.setNom(resultSet.getString("nom"));
                 utilisateur.setPrenom(resultSet.getString("prenom"));
                 utilisateur.setDroit(resultSet.getInt("droit"));
                 
-                int id_utilisateur = utilisateur.getId();
+                int id_utilisateur = utilisateur.getIdUtilisateur();
                 String email = utilisateur.getEmail();
                 String password = utilisateur.getPassword();
                 String nom = utilisateur.getNom();
@@ -235,6 +231,4 @@ public class UtilisateurDAO extends Utilisateur
         
     }
         
-    
-   
 }
